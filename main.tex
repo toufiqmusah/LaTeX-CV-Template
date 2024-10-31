@@ -1,0 +1,943 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Toufiq Musah's CV},
+    pdfauthor={Toufiq Musah},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Toufiq Musah
+
+        \vspace{5 pt}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:toufiqmusah32@gmail.com}{toufiqmusah32@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{tel:+233266134416}{+233 26 613 4416}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://bit.ly/toufiqmusah}{toufiqmusah.github.io}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+    \section{Summary}
+    
+    \begin{onecolentry}
+        Biomedical researcher and engineer with multidisciplinary experience in AI-driven healthcare solutions, deep learning, and digital health. Focus on global health, digital health, and artificial intelligence. Proven ability to lead impactful research and project initiatives, with a strong commitment to bridging the gap between technology and accessible healthcare solutions.
+    \end{onecolentry}
+
+    \section{Education}
+
+    \begin{twocolentry}{
+        Jan 2021 – Sep 2024
+    }
+        \textbf{Kwame Nkrumah University of Science and Technology (KNUST)}\\
+        \textbf{\textit{BSc. Biomedical Engineering}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item \textbf{Relevant Courses:} Research Methods, Medical Imaging, Probability and Statistics, Linear Algebra, Calculus, C Programming, Biomaterials, Bioinstrumentation, Biosignal Processing and Analysis
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Professional Experience}
+
+    \begin{twocolentry}{
+        Oct 2024 – Present
+    }
+        \textbf{Research Assistant, Engineering Research} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Kumasi Centre for Collaborative Research in Tropical Medicine (KCCR)}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Research in Digital Health and Artificial Intelligence in the Global Health \& Infectious Diseases (GHID) Group
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Oct 2023 – Feb 2024
+    }
+        \textbf{Research Assistant, Intern – Machine Learning} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Responsible Artificial Intelligence Lab (RAIL)}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Conducted extensive literature reviews across multiple domains of machine learning/deep learning, including Generative Adversarial Networks (GANs) and Machine Learning Applications in Biomedical Engineering.
+            \item Built a Generative Model to produce high resolution, denoised CT scan images out of low-resolution variants.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Sept 2021 – Nov 2021
+    }
+        \textbf{Engineering Intern – Engineering Team} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Sesi Technologies Limited}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built User-Interface components to assist in the digitization of much needed agricultural technologies.
+            \item Designed and implemented a custom computer mouse, sourcing components, utilizing CAD \& 3D printing.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Dec 2022 – Jan 2023
+    }
+        \textbf{Engineering Intern – Biomedical Engineering Team} \hfill \textit{Accra, Ghana}\\
+        \textbf{\textit{37 Military Hospital}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Assisted in routine maintenance checks on various medical equipment including autoclaves and surgery lightening equipment.
+            \item Supported quality control processes through testing and evaluations, ensuring medical devices met organizational and regulatory standards.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Aug 2019 – Feb 2022
+    }
+        \textbf{Teaching Assistant \& Private Tutoring} \hfill \textit{Accra, Ghana}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Aided in the curation of a teaching curriculum to improve classroom learning experience.
+            \item Tutored students one-on-one in various subjects including; Science, Physics, Chemistry, Mathematics.
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Research and Academic Work}
+
+    \begin{onecolentry}
+        \begin{highlights}
+            \item \textbf{Automated Segmentation of Ischemic Stroke Lesions in Non-Contrast Computed Tomography Images for Enhanced Treatment and Prognosis}\\
+            Authors: Toufiq Musah, Prince Ebenezer Adjei, Kojo Obed Otoo\\
+            Accepted at: MICCAI Meets Africa Workshop - Paper, Oral Presentation
+            \item \textbf{An Explainable Artificial Intelligence Framework for Clinical Decision Support Systems in Stroke Triaging}\\
+            Authors: Toufiq Musah, Tracy Birago Boamah, Mathew Akakpo, Prince Ebenezer Adjei\\
+            Accepted at: Ghana Digital Innovation Week - Paper, Poster Presentation
+            \item \textbf{Transformer and ConvNet: An Approach for Advanced Brain Tumor Segmentation in Sub-Saharan Africa}\\
+            Authors: Toufiq Musah, et al.\\
+            Submitted to: MICCAI BraTs-Africa Challenge
+            \item \textbf{Sleep Apnea detection Using machine learning in low-resource compute devices and SpO2 Sensors}\\
+            Authors: Toufiq Musah\\
+            Accepted at: University of Ghana, School of Engineering Sciences Conference - Abstract, Oral Presentation
+            \item \textbf{An Explainable Artificial Intelligence Framework for Clinical Decision Support Systems}\\
+            Authors: Toufiq Musah, Tracy Birago Boamah, Mathew Akakpo, Adjei Prince Ebenezer\\
+            Presented at: Biomedical Engineering Symposium, KNUST and VRIJE Universiteit Brussel - Oral Presentation
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Relevant Projects}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Brain Tumor Segmentation Using Deep Learning}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Developed and implemented advanced algorithms for segmenting brain tumors from multi-modal MRI scans as part of the Sprint AI Training for African Medical Imaging Knowledge Translation programme. The project focused on addressing the unique challenges facing the Sub-Saharan African region including limited data availabilty.    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Super Resolution and Denoising of Computed Tomography Scans}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        A generative model for producing high resolution head CT scans from low resolution variants, to minimize effective patient radiation dose in CT diagnosis radiology procedures.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Data Augmentation via Deep Convolutional GAN}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Implemented a deep convolutional generative adversarial network (DCGAN) to synthetically generate additional medical image data for self-supervised pre-training, enabling effective data augmentation and facilitating robust fine-tuning of computer vision models.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Remote Patient Monitoring Telemetry System}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Engineered an IoT-based health vitals monitoring solution using the MAX30102 sensor and Arduino Nano RP2040. Developed a custom cloud dashboard for real-time tracking of vital signs, enhancing remote patient care capabilities. Implemented data encryption and secure transmission protocols to ensure patient privacy and data integrity.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Geospatial Data Visualization Pipeline}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Built a pipeline that accepts and augments data from the Ghana Statistical Service StatsBank, to easily create Geospatial and Exploratory Data Analysis (EDA) plots for research and policy purposes.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Prosthetic Leg Design}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Led a team of students in designing an affordable, safe and efficient 3D above knee prosthetic leg, applying Finite Element Analysis (FEA) in validating the final design.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Large Scale Automated Irrigation System}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Made use of ESP8266 microcontrollers and capacitive soil moisture meters to implement and automated irrigation system to promote efficient water usage in the agricultural process.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Ocular Disease Detection using Deep Learning}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Developed an open-source suite of efficient CNN models for automated diagnosis of major eye conditions (glaucoma, diabetic retinopathy, AMD, cataracts) using fundus photography. Achieved >90% accuracy while optimizing for minimal computational requirements through EfficientNet architecture implementation in PyTorch. Focused on accessibility and deployability to support screening programs in resource-constrained settings. Incorporated explainable AI techniques to ensure models used the right features in disease detection, enhancing interpretability and trust in the system.
+    \end{onecolentry}
+
+    \section{Awards and Acknowledgements}
+
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Best Oral Presentation Award - MICCAI Meets Africa Workshop, 2024
+            \item Best Poster Presentation Award - Ghana Data Science Summit, IndabaX, 2024
+            \item Academic Excellence Awardee – Provost List 2021, 2022, 2023
+            \item Ghana Statistical Service, Data Science Hackathon – First Runner Up
+            \item Engineering Maker's Fair Competition – First Runner Up
+            \item Trade and Technology Committee – Chairperson
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Volunteering}
+
+    \begin{onecolentry}
+        \textbf{Teaching Assistant, Women in Engineering, SheCodes Club}
+        
+        Teaching Python programming and introductory machine learning classes for the Women in Engineering Society, creating an inclusive learning environment to help members gain critical tech skills and build their confidence in STEM fields.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Student Lead, ARM(E3)NGAGE Club}
+        
+        Spearheading the ARM student club focused on microcontroller programming, IoT, and embedded machine learning. Guided teams in developing innovative hands-on projects while organizing outreach workshops at local high schools to inspire interest in emerging technologies.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Volunteer, IndabaX, Ghana Data Science Summit}
+        
+        Contributing to the organization of IndabaX GDSS by curating engaging content that raised awareness and sparked interest in the transformative potential of data science.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Club President, Biomedical Engineering Hands-On Club}
+        
+        Led a club that brought biomedical engineering concepts to life through immersive, hands-on projects, nurturing members' practical skills and passion for innovation.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Mentor, Student Mentor Program}
+        
+        Guiding peers through academic and personal challenges, fostering a support system that empowers their growth and success.
+    \end{onecolentry}
+
+    \section{Skills}
+
+    \begin{onecolentry}
+        \textbf{Languages:} C/C++, Python, LaTeX, MATLAB
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Libraries:} PyTorch, TensorFlow, Keras, Scikit-Learn, Pandas, LangChain
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Software:} Solidworks, Fusion 360, ANSYS FEA, Unity Game Engine, KiCAD, Electronics Prototyping
+    \end{onecolentry}
+
+\end{document}\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Toufiq Musah's CV},
+    pdfauthor={Toufiq Musah},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Toufiq Musah
+
+        \vspace{5 pt}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:toufiqmusah32@gmail.com}{toufiqmusah32@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{tel:+233266134416}{+233 26 613 4416}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://bit.ly/toufiqmusah}{toufiqmusah.github.io}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+    \section{Summary}
+    
+    \begin{onecolentry}
+        Biomedical researcher and engineer with multidisciplinary experience in AI-driven healthcare solutions, deep learning, and digital health. Focus on global health, digital health, and artificial intelligence. Proven ability to lead impactful research and project initiatives, with a strong commitment to bridging the gap between technology and accessible healthcare solutions.
+    \end{onecolentry}
+
+    \section{Education}
+
+    \begin{twocolentry}{
+        Jan 2021 – Sep 2024
+    }
+        \textbf{Kwame Nkrumah University of Science and Technology (KNUST)}\\
+        \textbf{\textit{BSc. Biomedical Engineering}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item \textbf{Relevant Courses:} Research Methods, Medical Imaging, Probability and Statistics, Linear Algebra, Calculus, C Programming, Biomaterials, Bioinstrumentation, Biosignal Processing and Analysis
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Professional Experience}
+
+    \begin{twocolentry}{
+        Oct 2024 – Present
+    }
+        \textbf{Research Assistant, Engineering Research} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Kumasi Centre for Collaborative Research in Tropical Medicine (KCCR)}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Research in Digital Health and Artificial Intelligence in the Global Health \& Infectious Diseases (GHID) Group
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Oct 2023 – Feb 2024
+    }
+        \textbf{Research Assistant, Intern – Machine Learning} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Responsible Artificial Intelligence Lab (RAIL)}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Conducted extensive literature reviews across multiple domains of machine learning/deep learning, including Generative Adversarial Networks (GANs) and Machine Learning Applications in Biomedical Engineering.
+            \item Built a Generative Model to produce high resolution, denoised CT scan images out of low-resolution variants.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Sept 2021 – Nov 2021
+    }
+        \textbf{Engineering Intern – Engineering Team} \hfill \textit{Kumasi, Ghana}\\
+        \textbf{\textit{Sesi Technologies Limited}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built User-Interface components to assist in the digitization of much needed agricultural technologies.
+            \item Designed and implemented a custom computer mouse, sourcing components, utilizing CAD \& 3D printing.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Dec 2022 – Jan 2023
+    }
+        \textbf{Engineering Intern – Biomedical Engineering Team} \hfill \textit{Accra, Ghana}\\
+        \textbf{\textit{37 Military Hospital}}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Assisted in routine maintenance checks on various medical equipment including autoclaves and surgery lightening equipment.
+            \item Supported quality control processes through testing and evaluations, ensuring medical devices met organizational and regulatory standards.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+        Aug 2019 – Feb 2022
+    }
+        \textbf{Teaching Assistant \& Private Tutoring} \hfill \textit{Accra, Ghana}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Aided in the curation of a teaching curriculum to improve classroom learning experience.
+            \item Tutored students one-on-one in various subjects including; Science, Physics, Chemistry, Mathematics.
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Research and Academic Work}
+
+    \begin{onecolentry}
+        \begin{highlights}
+            \item \textbf{Automated Segmentation of Ischemic Stroke Lesions in Non-Contrast Computed Tomography Images for Enhanced Treatment and Prognosis}\\
+            Authors: Toufiq Musah, Prince Ebenezer Adjei, Kojo Obed Otoo\\
+            Accepted at: MICCAI Meets Africa Workshop - Paper, Oral Presentation
+            \item \textbf{An Explainable Artificial Intelligence Framework for Clinical Decision Support Systems in Stroke Triaging}\\
+            Authors: Toufiq Musah, Tracy Birago Boamah, Mathew Akakpo, Prince Ebenezer Adjei\\
+            Accepted at: Ghana Digital Innovation Week - Paper, Poster Presentation
+            \item \textbf{Transformer and ConvNet: An Approach for Advanced Brain Tumor Segmentation in Sub-Saharan Africa}\\
+            Authors: Toufiq Musah, et al.\\
+            Submitted to: MICCAI BraTs-Africa Challenge
+            \item \textbf{Sleep Apnea detection Using machine learning in low-resource compute devices and SpO2 Sensors}\\
+            Authors: Toufiq Musah\\
+            Accepted at: University of Ghana, School of Engineering Sciences Conference - Abstract, Oral Presentation
+            \item \textbf{An Explainable Artificial Intelligence Framework for Clinical Decision Support Systems}\\
+            Authors: Toufiq Musah, Tracy Birago Boamah, Mathew Akakpo, Adjei Prince Ebenezer\\
+            Presented at: Biomedical Engineering Symposium, KNUST and VRIJE Universiteit Brussel - Oral Presentation
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Relevant Projects}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Brain Tumor Segmentation Using Deep Learning}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Developed and implemented advanced algorithms for segmenting brain tumors from multi-modal MRI scans as part of the Sprint AI Training for African Medical Imaging Knowledge Translation programme. The project focused on addressing the unique challenges facing the Sub-Saharan African region including limited data availabilty.    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Super Resolution and Denoising of Computed Tomography Scans}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        A generative model for producing high resolution head CT scans from low resolution variants, to minimize effective patient radiation dose in CT diagnosis radiology procedures.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Data Augmentation via Deep Convolutional GAN}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Implemented a deep convolutional generative adversarial network (DCGAN) to synthetically generate additional medical image data for self-supervised pre-training, enabling effective data augmentation and facilitating robust fine-tuning of computer vision models.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Remote Patient Monitoring Telemetry System}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Engineered an IoT-based health vitals monitoring solution using the MAX30102 sensor and Arduino Nano RP2040. Developed a custom cloud dashboard for real-time tracking of vital signs, enhancing remote patient care capabilities. Implemented data encryption and secure transmission protocols to ensure patient privacy and data integrity.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Geospatial Data Visualization Pipeline}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Built a pipeline that accepts and augments data from the Ghana Statistical Service StatsBank, to easily create Geospatial and Exploratory Data Analysis (EDA) plots for research and policy purposes.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Prosthetic Leg Design}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Led a team of students in designing an affordable, safe and efficient 3D above knee prosthetic leg, applying Finite Element Analysis (FEA) in validating the final design.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Large Scale Automated Irrigation System}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Made use of ESP8266 microcontrollers and capacitive soil moisture meters to implement and automated irrigation system to promote efficient water usage in the agricultural process.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{
+    }
+        \textbf{Ocular Disease Detection using Deep Learning}
+    \end{twocolentry}
+
+    \vspace{0.10 cm}
+    \begin{onecolentry}
+        Developed an open-source suite of efficient CNN models for automated diagnosis of major eye conditions (glaucoma, diabetic retinopathy, AMD, cataracts) using fundus photography. Achieved >90% accuracy while optimizing for minimal computational requirements through EfficientNet architecture implementation in PyTorch. Focused on accessibility and deployability to support screening programs in resource-constrained settings. Incorporated explainable AI techniques to ensure models used the right features in disease detection, enhancing interpretability and trust in the system.
+    \end{onecolentry}
+
+    \section{Awards and Acknowledgements}
+
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Best Oral Presentation Award - MICCAI Meets Africa Workshop, 2024
+            \item Best Poster Presentation Award - Ghana Data Science Summit, IndabaX, 2024
+            \item Academic Excellence Awardee – Provost List 2021, 2022, 2023
+            \item Ghana Statistical Service, Data Science Hackathon – First Runner Up
+            \item Engineering Maker's Fair Competition – First Runner Up
+            \item Trade and Technology Committee – Chairperson
+        \end{highlights}
+    \end{onecolentry}
+
+    \section{Volunteering}
+
+    \begin{onecolentry}
+        \textbf{Teaching Assistant, Women in Engineering, SheCodes Club}
+        
+        Teaching Python programming and introductory machine learning classes for the Women in Engineering Society, creating an inclusive learning environment to help members gain critical tech skills and build their confidence in STEM fields.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Student Lead, ARM(E3)NGAGE Club}
+        
+        Spearheading the ARM student club focused on microcontroller programming, IoT, and embedded machine learning. Guided teams in developing innovative hands-on projects while organizing outreach workshops at local high schools to inspire interest in emerging technologies.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Volunteer, IndabaX, Ghana Data Science Summit}
+        
+        Contributing to the organization of IndabaX GDSS by curating engaging content that raised awareness and sparked interest in the transformative potential of data science.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Club President, Biomedical Engineering Hands-On Club}
+        
+        Led a club that brought biomedical engineering concepts to life through immersive, hands-on projects, nurturing members' practical skills and passion for innovation.
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Mentor, Student Mentor Program}
+        
+        Guiding peers through academic and personal challenges, fostering a support system that empowers their growth and success.
+    \end{onecolentry}
+
+    \section{Skills}
+
+    \begin{onecolentry}
+        \textbf{Languages:} C/C++, Python, LaTeX, MATLAB
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Libraries:} PyTorch, TensorFlow, Keras, Scikit-Learn, Pandas, LangChain
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Software:} Solidworks, Fusion 360, ANSYS FEA, Unity Game Engine, KiCAD, Electronics Prototyping
+    \end{onecolentry}
+
+\end{document}
